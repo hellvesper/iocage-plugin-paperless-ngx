@@ -1,9 +1,9 @@
 #!/bin/tcsh
 
 
-echo "install paperless"
+# echo "install paperless"
 
-echo "Fetch and install paperless"
+# echo "Fetch and install paperless"
 
 
 # Define the username and other details
@@ -67,7 +67,7 @@ chown ${username}:${username} rename.sh
 sudo -Hu paperless /bin/sh rename.sh
 
 ### install wheels
-python3.11 -m ensurepip --upgrade
+sudo -Hu paperless python3.11 -m ensurepip --upgrade
 sudo -Hu paperless cp paperless-ngx/requirements.txt ./
 sudo -Hu paperless sed -i '' 1d requirements.txt
 
@@ -108,7 +108,7 @@ sysrc -f /etc/rc.conf nginx_enable=YES
 sysrc -f /etc/rc.conf mdnsresponderposix_enable=YES
 sysrc -f /etc/rc.conf mdnsresponderposix_flags="-f /usr/local/etc/mdnsresponder.conf"
 # sysrc -f /etc/rc.conf paperless-ngx_enable=YES
-sysrc -f /etc/rc.conf paperless-ngx_env="PATH=${PATH}:${home}/.local/bin"
+sysrc -f /etc/rc.conf paperless_ngx_env="PATH=${PATH}:${home}/.local/bin"
 # service paperless-ngx start
 service nginx start
 service mdnsresponderposix start
