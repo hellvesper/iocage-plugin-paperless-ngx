@@ -32,8 +32,6 @@ pw groupadd ${username} && pw useradd -n ${username} -m -g ${username} -s /bin/s
 # cp /root/paperless-ngx /home/paperless-ngx/
 # chown paperless-ngx:paperless-ngx /home/paperless-ngx
 
-mv ${appname} ${home}/
-
 chown -R ${username}:${username} ${home}/${appname}
 
 # mkdir ${home}/paperless-data/media
