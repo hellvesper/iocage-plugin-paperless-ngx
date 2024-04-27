@@ -4,17 +4,17 @@
 echo "install paperless"
 
 echo "Fetch and install paperless"
-cd /root && fetch https://github.com/hellvesper/iocage-plugin-paperless-ngx/releases/download/paperless-ngx-10.4.0/paperless-ngx-latest.tar.gz && \
-tar -xf paperless-ngx-latest.tar.gz && \
-mv paperless-ngx-latest paperless-ngx && \
-/root/paperless-ngx/bin/server.sh install
+cd /root && fetch https://github.com/paperless-ngx/paperless-ngx/releases/download/v2.7.2/paperless-ngx-v2.7.2.tar.xz && \
+tar -xf paperless-ngx-v2.7.2.tar.xz
+
 
 # Define the username and other details
-# set username="paperless-ngx"
-# set fullname="paperless-ngx"
+set username="paperless"
+set fullname="paperless-ngx"
+set appname="paperless-ngx"
 # set uid=1001
 # set gid=1001
-# set home="/home/paperless-ngx"
+set home="/home/paperless"
 # set shell="/bin/bash"
 
 # Create group
@@ -22,6 +22,8 @@ mv paperless-ngx-latest paperless-ngx && \
 
 # Create the user
 # /usr/sbin/pw useradd ${username} -n ${fullname} -u ${uid} -g ${gid} -m -s ${shell}
+
+pw groupadd ${username} && pw useradd -n ${username} -m -g ${username} -s /bin/sh -d ${home}
 
 # Set a password for the new user
 #echo "newuser:password" | /usr/sbin/chpass
@@ -31,7 +33,71 @@ mv paperless-ngx-latest paperless-ngx && \
 
 # cp /root/paperless-ngx /home/paperless-ngx/
 # chown paperless-ngx:paperless-ngx /home/paperless-ngx
-pip install --no-build-isolation pyyaml==6.0
+
+mv -r ${appname} ${home}/
+
+chown -R ${username}:${username} ${home}/${appname}
+
+# mkdir ${home}/paperless-data/media
+# mkdir ${home}/paperless-data/data
+# mkdir ${home}/paperless-data/consume
+
+# chown -R ${username}:${username} ${home}/paperless-data
+
+
+mkdir /mnt/media
+mkdir /mnt/data
+mkdir /mnt/consume
+
+chown -R ${username}:${username} /mnt/media
+chown -R ${username}:${username} /mnt/data
+chown -R ${username}:${username} /mnt/consume
+
+
+### fetch paperless-ngx
+cd ${home}
+
+sudo -Hu paperless fetch https://github.com/hellvesper/iocage-plugin-paperless-ngx/releases/download/v2.7.2%4013.2-RELEASE/wheels.tar.xz
+
+### fetch prebuild wheels
+sudo -Hu paperless tar -xf wheels.tar.xz
+
+### rename wheels, because it python store os version from 'uname -r' which is TrueNAS base os version
+cp /root/rename.sh ./
+chown ${username}:${username} rename.sh
+sudo -Hu paperless /bin/sh rename.sh
+
+### install wheels
+python3.11 -m ensurepip --upgrade
+cp /root/install_wheels.sh ./
+chown ${username}:${username} install_wheels.sh
+sudo -Hu paperless /bin/sh install_wheels.sh
+# pip3.11 install --no-build-isolation pyyaml==6.0.1
+
+### adjust paperless config
+sed -i '' "s|#PAPERLESS_REDIS=redis://localhost:6379|PAPERLESS_REDIS=redis://localhost:6379|" paperless.conf
+sed -i '' "s|#PAPERLESS_URL=https://example.com|PAPERLESS_URL=`uname -n`.local|" paperless.conf
+
+## folders
+sed -i '' "s|#PAPERLESS_CONSUMPTION_DIR=../consume|PAPERLESS_CONSUMPTION_DIR=/mnt/consume|" paperless.conf
+sed -i '' "s|#PAPERLESS_DATA_DIR=../data|PAPERLESS_DATA_DIR=/mnt/data|" paperless.conf
+sed -i '' "s|#PAPERLESS_MEDIA_ROOT=../media|PAPERLESS_MEDIA_ROOT=/mnt/media|" paperless.conf
+
+## software
+# my NAS has only 2 cores so limit workers
+sed -i '' "s|#PAPERLESS_TASK_WORKERS=1|PAPERLESS_TASK_WORKERS=1|" paperless.conf
+sed -i '' "s|#PAPERLESS_THREADS_PER_WORKER=1|PAPERLESS_THREADS_PER_WORKER=1|" paperless.conf
+# FreeBSD doesn't support inotify, so enable pulling
+sed -i '' "s|#PAPERLESS_CONSUMER_POLLING=10|PAPERLESS_CONSUMER_POLLING=10|" paperless.conf
+sed -i '' "s|#PAPERLESS_CONSUMER_DELETE_DUPLICATES=false|PAPERLESS_CONSUMER_DELETE_DUPLICATES=true|" paperless.conf
+sed -i '' "s|#PAPERLESS_CONSUMER_RECURSIVE=false|PAPERLESS_CONSUMER_RECURSIVE=true|" paperless.conf
+sed -i '' "s|#PAPERLESS_CONSUMER_IGNORE_PATTERNS=[".DS_STORE/*", "._*", ".stfolder/*", ".stversions/*", ".localized/*", "desktop.ini"]|PAPERLESS_CONSUMER_IGNORE_PATTERNS=[".DS_STORE/*", "._*", ".stfolder/*", ".stversions/*", ".localized/*", "desktop.ini"]|" paperless.conf
+sed -i '' "s|#PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS=false|PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS=true|" paperless.conf
+
+# python3.11 src/manage.py migrate
+# python src/manage.py createsuperuser
+
+sysrc -f /etc/rc.conf redis_enable=YES
 # echo "Enable nginx service"
 sysrc -f /etc/rc.conf nginx_enable=YES
 sysrc -f /etc/rc.conf mdnsresponderposix_enable=YES

@@ -35,8 +35,6 @@
     "redis",
     "rust",
     "sqlite",
-    "tesseract",
-    "tesseract-data",
     "unpaper",
     "zbar",
     "zlib-ng",
@@ -52,8 +50,10 @@
     "mime-support",
     "zbar",
     "poppler-utils",
+    "tesseract",
+    "tesseract-data",
 
-    "bash",
+    "sudo",
     "nginx",
     "git",
     "mDNSResponder"
