@@ -34,7 +34,7 @@ pw groupadd ${username} && pw useradd -n ${username} -m -g ${username} -s /bin/s
 # cp /root/paperless-ngx /home/paperless-ngx/
 # chown paperless-ngx:paperless-ngx /home/paperless-ngx
 
-mv -r ${appname} ${home}/
+mv ${appname} ${home}/
 
 chown -R ${username}:${username} ${home}/${appname}
 
@@ -75,6 +75,7 @@ sudo -Hu paperless /bin/sh install_wheels.sh
 # pip3.11 install --no-build-isolation pyyaml==6.0.1
 
 ### adjust paperless config
+cd ${home}/${appname}
 sed -i '' "s|#PAPERLESS_REDIS=redis://localhost:6379|PAPERLESS_REDIS=redis://localhost:6379|" paperless.conf
 sed -i '' "s|#PAPERLESS_URL=https://example.com|PAPERLESS_URL=`uname -n`.local|" paperless.conf
 
@@ -93,6 +94,8 @@ sed -i '' "s|#PAPERLESS_CONSUMER_DELETE_DUPLICATES=false|PAPERLESS_CONSUMER_DELE
 sed -i '' "s|#PAPERLESS_CONSUMER_RECURSIVE=false|PAPERLESS_CONSUMER_RECURSIVE=true|" paperless.conf
 sed -i '' "s|#PAPERLESS_CONSUMER_IGNORE_PATTERNS=[".DS_STORE/*", "._*", ".stfolder/*", ".stversions/*", ".localized/*", "desktop.ini"]|PAPERLESS_CONSUMER_IGNORE_PATTERNS=[".DS_STORE/*", "._*", ".stfolder/*", ".stversions/*", ".localized/*", "desktop.ini"]|" paperless.conf
 sed -i '' "s|#PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS=false|PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS=true|" paperless.conf
+
+chown ${username}:${username} paperlsess.conf
 
 # python3.11 src/manage.py migrate
 # python src/manage.py createsuperuser
