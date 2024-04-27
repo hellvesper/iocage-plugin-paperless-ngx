@@ -4,8 +4,6 @@
 echo "install paperless"
 
 echo "Fetch and install paperless"
-cd /root && fetch https://github.com/paperless-ngx/paperless-ngx/releases/download/v2.7.2/paperless-ngx-v2.7.2.tar.xz && \
-tar -xf paperless-ngx-v2.7.2.tar.xz
 
 
 # Define the username and other details
@@ -57,9 +55,12 @@ chown -R ${username}:${username} /mnt/consume
 ### fetch paperless-ngx
 cd ${home}
 
-sudo -Hu paperless fetch https://github.com/hellvesper/iocage-plugin-paperless-ngx/releases/download/v2.7.2%4013.2-RELEASE/wheels.tar.xz
+sudo -Hu paperless fetch https://github.com/paperless-ngx/paperless-ngx/releases/download/v2.7.2/paperless-ngx-v2.7.2.tar.xz && \
+sudo -Hu paperless tar -xf paperless-ngx-v2.7.2.tar.xz
+
 
 ### fetch prebuild wheels
+sudo -Hu paperless fetch https://github.com/hellvesper/iocage-plugin-paperless-ngx/releases/download/v2.7.2%4013.2-RELEASE/wheels.tar.xz
 sudo -Hu paperless tar -xf wheels.tar.xz
 
 ### rename wheels, because it python store os version from 'uname -r' which is TrueNAS base os version
@@ -69,6 +70,9 @@ sudo -Hu paperless /bin/sh rename.sh
 
 ### install wheels
 python3.11 -m ensurepip --upgrade
+sudo -Hu paperless cp paperless-ngx/requirements.txt ./
+sudo -Hu paperless sed -i '' 1d requirements.txt
+
 cp /root/install_wheels.sh ./
 chown ${username}:${username} install_wheels.sh
 sudo -Hu paperless /bin/sh install_wheels.sh
