@@ -108,7 +108,7 @@ sysrc -f /etc/rc.conf nginx_enable=YES
 sysrc -f /etc/rc.conf mdnsresponderposix_enable=YES
 sysrc -f /etc/rc.conf mdnsresponderposix_flags="-f /usr/local/etc/mdnsresponder.conf"
 # sysrc -f /etc/rc.conf paperless-ngx_enable=YES
-# sysrc -f /etc/rc.conf paperless-ngx_env="PATH=${PATH}:/usr/local/bin:/usr/local/sbin"
+sysrc -f /etc/rc.conf paperless-ngx_env="PATH=${PATH}:${home}/.local/bin"
 # service paperless-ngx start
 service nginx start
 service mdnsresponderposix start
