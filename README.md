@@ -13,7 +13,11 @@ The plugin script will install Paperless-ngx version 2.7.2 from official release
 - download plugin `fetch https://raw.githubusercontent.com/hellvesper/iocage-plugin-paperless-ngx/master/paperless-ngx.json`
 - launch installation `iocage fetch -P paperless-ngx.json -n paperless-ngx` where `paperless-ngx` - your plugin jail name.
     choose jail name carefully, it will your mDNS domain, like `paperless-ngx` -> `http://paperless-ngx.local`
-- Setup mount points for **consume** dir and **data**, **media** dirs if needed.
+- Setup mount points for **consume** dir (and **data**, **media** dirs if needed).
+    WARNING: if you consider to mount **data** and **media** dir disable `service paperless start` in `post_install.sh` or you will get corrupted install
+    the app will autostart on jail reboot anyway
+- IMPORTANT: Set **uid** and **gid** in `post_install.sh` according to your share user or you will get error errors during consume operation.
+    Now it default set to **1000** as first **TrueNAS** user, bu by default **FreeBSD** create first user and group with uid **1001**
 
 You can mount dirs from FreeBSD terminal or TrueNAS terminal like this:
 ```sh

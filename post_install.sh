@@ -4,18 +4,21 @@
 set username="paperless"
 set fullname="paperless-ngx"
 set appname="paperless-ngx"
-# set uid=1001
-# set gid=1001
+set uid=1000
+set gid=1000
 set home="/home/paperless"
 # set shell="/bin/bash"
 
-# Create group
+## this for cmd cheatsheet only
 # /usr/sbin/pw groupadd ${username}
-
-# Create the user
 # /usr/sbin/pw useradd ${username} -n ${fullname} -u ${uid} -g ${gid} -m -s ${shell}
+# pw usermod ${username} -u ${uid}
+# pw groupmod ${username} -g ${gid}
 
-pw groupadd ${username} && pw useradd -n ${username} -m -g ${username} -s /bin/sh -d ${home}
+## Create the group and user
+pw groupadd -g ${gid} ${username} && pw useradd -n ${username} -u ${uid} -m -g ${username} -s /bin/sh -d ${home}
+
+
 
 # Set a password for the new user
 #echo "newuser:password" | /usr/sbin/chpass
@@ -82,6 +85,9 @@ sed -i '' "s|#PAPERLESS_CONSUMPTION_DIR=../consume|PAPERLESS_CONSUMPTION_DIR=/mn
 sed -i '' "s|#PAPERLESS_DATA_DIR=../data|PAPERLESS_DATA_DIR=/mnt/data|" paperless.conf
 sed -i '' "s|#PAPERLESS_MEDIA_ROOT=../media|PAPERLESS_MEDIA_ROOT=/mnt/media|" paperless.conf
 
+## autologin WARNING for intranet use only
+sed -i '' "s|#PAPERLESS_AUTO_LOGIN_USERNAME=|PAPERLESS_AUTO_LOGIN_USERNAME=admin|" paperless.conf
+
 ## software
 # my NAS has only 2 cores so limit workers
 sed -i '' "s|#PAPERLESS_TASK_WORKERS=1|PAPERLESS_TASK_WORKERS=1|" paperless.conf
@@ -93,7 +99,7 @@ sed -i '' "s|#PAPERLESS_CONSUMER_RECURSIVE=false|PAPERLESS_CONSUMER_RECURSIVE=tr
 sed -i '' "s|#PAPERLESS_CONSUMER_IGNORE_PATTERNS=|PAPERLESS_CONSUMER_IGNORE_PATTERNS=|" paperless.conf
 sed -i '' "s|#PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS=false|PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS=true|" paperless.conf
 
-chown ${username}:${username} paperlsess.conf
+# chown ${username}:${username} paperlsess.conf
 
 ## doesn't work in tcsh
 # sed -i '' '/<policymap>/a\
