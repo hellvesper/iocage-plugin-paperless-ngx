@@ -100,8 +100,11 @@ chown ${username}:${username} paperlsess.conf
 #   <policy domain="coder" rights="read|write" pattern="{GIF,JPEG,PNG,WEBP,PDF}" />\
 # ' /usr/local/etc/ImageMagick-7/policy.xml
 
-sed -i '' 's#<policymap>#<policymap> \
-  <policy domain="coder" rights="read|write" pattern="{GIF,JPEG,PNG,WEBP,PDF}"/>#' /usr/local/etc/ImageMagick-7/policy.xml
+# sed 's#<policymap>#<policymap> \
+#   <policy domain="coder" rights="read|write" pattern="{GIF,JPEG,PNG,WEBP,PDF}"/>#' /usr/local/etc/ImageMagick-7/policy.xml
+## overwrite from overlay because sed is a mess
+cp /root/policy.xml /usr/local/etc/ImageMagick-7/policy.xml
+
 
 ### by some reason you should be in src dir runnning manage.py to use config
 cd ${home}/{$appname}/src
