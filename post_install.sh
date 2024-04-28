@@ -94,12 +94,13 @@ sed -i '' "s|#PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS=false|PAPERLESS_CONSUMER_SUBDIR
 
 chown ${username}:${username} paperlsess.conf
 
-sed -i '' '/<policymap>/a\
-  <policy domain="coder" rights="read|write" pattern="{GIF,JPEG,PNG,WEBP,PDF}" />\
-' /usr/local/etc/ImageMagick-7/policy.xml
+## doesn't work in tcsh
+# sed -i '' '/<policymap>/a\
+#   <policy domain="coder" rights="read|write" pattern="{GIF,JPEG,PNG,WEBP,PDF}" />\
+# ' /usr/local/etc/ImageMagick-7/policy.xml
 
-# sed -i '' 's#<policymap>#<policymap> \
-#   <policy domain="coder" rights="read|write" pattern="{GIF,JPEG,PNG,WEBP,PDF}"/>#' /usr/local/etc/ImageMagick-7/policy.xml
+sed -i '' 's#<policymap>#<policymap> \
+  <policy domain="coder" rights="read|write" pattern="{GIF,JPEG,PNG,WEBP,PDF}"/>#' /usr/local/etc/ImageMagick-7/policy.xml
 
 ### by some reason you should be in src dir runnning manage.py to use config
 cd ${home}/{$appname}/src
