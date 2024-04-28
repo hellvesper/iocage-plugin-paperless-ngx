@@ -61,6 +61,7 @@ chown ${username}:${username} rename.sh
 sudo -Hu ${username} /bin/sh rename.sh
 
 ### install wheels
+setenv PATH ${PATH}:/home/${username}/.local/bin
 sudo -Hu ${username} python3.11 -m ensurepip --upgrade
 sudo -Hu ${username} cp ${appname}/requirements.txt ./
 sudo -Hu ${username} sed -i '' 1d requirements.txt
