@@ -1,4 +1,4 @@
 {
-  "adminportal": "http://onedev.local",
-  "docurl": "https://docs.onedev.io"
+  "adminportal": "http://%%IP%%",
+  "docurl": "https://docs.paperless-ngx.com"
 }

@@ -1,11 +1,5 @@
 #!/bin/tcsh
 
-
-# echo "install paperless"
-
-# echo "Fetch and install paperless"
-
-
 # Define the username and other details
 set username="paperless"
 set fullname="paperless-ngx"
@@ -119,11 +113,10 @@ setenv ADMIN_PASSWORD `openssl rand -base64 12`
 
 # Create a superuser non-interactively using the generated password
 # setenv DJANGO_SUPERUSER_PASSWORD "$ADMIN_PASSWORD"
-setenv PAPERLESS_ADMIN_PASSWORD "$ADMIN_PASSWORD"
 # setenv DJANGO_SUPERUSER_USERNAME "admin"
 # setenv DJANGO_SUPERUSER_EMAIL "admin@example.com"
 
-sudo -Hu ${username} python3.11 manage.py manage_superuser
+sudo -Hu ${username} env PAPERLESS_ADMIN_PASSWORD=$ADMIN_PASSWORD python3.11 manage.py manage_superuser
 # sudo -Hu ${username} python3.11 manage.py createsuperuser --noinput --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL"
 # unsetenv DJANGO_SUPERUSER_PASSWORD
 # unsetenv DJANGO_SUPERUSER_USERNAME
@@ -133,25 +126,36 @@ sudo -Hu ${username} python3.11 manage.py manage_superuser
 sed -i '' "s|paperless|${username}|g" /usr/local/etc/rc.d/paperless
 sed -i '' "s|paperless|${username}|g" /usr/local/sbin/paperless
 sed -i '' "s|/usr/home/paperless/paperless-ngx/src|/usr/home/${username}/${appname}/src|g" /usr/local/sbin/paperless
-
 sed -i '' "s|paperless|${username}|g" /usr/local/etc/rc.d/paperless
+chmod +x /usr/local/etc/rc.d/paperless
+chmod +x /usr/local/sbin/paperless
 
 ### nginx config tweak
 sed -i '' "s|paperless|`uname -n`|g" /usr/local/etc/nginx/sites-available/${username}.conf
 ln -s /usr/local/etc/nginx/sites-available/${username}.conf /usr/local/etc/nginx/sites-enabled/${username}.conf
 
+# it won't work without redis, if err 500 during login - check redis
 sysrc -f /etc/rc.conf redis_enable=YES
-# echo "Enable nginx service"
 sysrc -f /etc/rc.conf nginx_enable=YES
 sysrc -f /etc/rc.conf mdnsresponderposix_enable=YES
 sysrc -f /etc/rc.conf mdnsresponderposix_flags="-f /usr/local/etc/mdnsresponder.conf"
-sysrc -f /etc/rc.conf paperless-ngx_enable=YES
-sysrc -f /etc/rc.conf paperless_ngx_env="PATH=${PATH}:${home}/.local/bin"
+sysrc -f /etc/rc.conf paperless_enable=YES
+sysrc -f /etc/rc.conf paperless_env="PATH=${PATH}:${home}/.local/bin"
 service redist start
-service paperless-ngx start
+service paperless start
 service nginx start
 service mdnsresponderposix start
 
 echo "Default username 'admin'" >> /root/PLUGIN_INFO
 echo "Default password $ADMIN_PASSWORD" >> /root/PLUGIN_INFO
 echo "Web interface mDNS URL: http://`uname -n`.local" >> /root/PLUGIN_INFO
+
+echo "Don't forget mount consume dir and optionaly data and media dir if you want download back"
+echo "You can mount dirs from FreeBSD terminal or TrueNAS terminal like this:"
+echo "sudo iocage fstab -a `uname -n` /path/to/host/dir /mnt/host_dir nullfs rw 0 0"
+echo "i.e. sudo iocage fstab -a `uname -n` /Storage/paperless/consume /mnt/consume nullfs rw 0 0"
+echo "Or in TruNAS GUI: Jails -> your_jail click arrow '>' -> Mount points"
+echo "Ensure that dirs has write permission"
+
+### mount jail dirs like this
+# iocage fstab -a `uname -n` /path/to/host/dir /mnt/host_dir nullfs rw 0 0
