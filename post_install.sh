@@ -114,7 +114,7 @@ sudo -Hu ${username} python3.11 manage.py migrate
 
 # Generate a random password
 setenv ADMIN_PASSWORD `openssl rand -base64 12`
-echo "Generated admin password: $ADMIN_PASSWORD" > /root/PLUGIN_INFO
+# echo "Generated admin password: $ADMIN_PASSWORD" > /root/PLUGIN_INFO
 
 # Create a superuser non-interactively using the generated password
 # setenv DJANGO_SUPERUSER_PASSWORD "$ADMIN_PASSWORD"
@@ -151,4 +151,6 @@ service paperless-ngx start
 service nginx start
 service mdnsresponderposix start
 
-echo "There is no default username and password, register new user with your credentials." >> /root/PLUGIN_INFO
+echo "Default username 'admin'" >> /root/PLUGIN_INFO
+echo "Default password $ADMIN_PASSWORD" >> /root/PLUGIN_INFO
+echo "Web interface mDNS URL: http://`uname -n`.local" >> /root/PLUGIN_INFO
