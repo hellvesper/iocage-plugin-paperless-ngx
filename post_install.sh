@@ -72,6 +72,7 @@ sudo -Hu ${username} cp ${appname}/requirements.txt ./
 sudo -Hu ${username} sed -i '' 1d requirements.txt
 
 cp /root/install_wheels.sh ./
+setenv PATH ${PATH}:/home/${username}/.local/bin
 chown ${username}:${username} install_wheels.sh
 sudo -Hu ${username} /bin/sh install_wheels.sh
 # pip3.11 install --no-build-isolation pyyaml==6.0.1
