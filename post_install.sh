@@ -131,7 +131,7 @@ sudo -Hu ${username} python3.11 manage.py manage_superuser
 ### rc scripts ensure path
 sed -i '' "s|paperless|${username}|g" /usr/local/etc/rc.d/paperless
 sed -i '' "s|paperless|${username}|g" /usr/local/sbin/paperless
-sed -i '' "s|/usr/home/paperless/paperless-ngx/src|/usr/${home}/${appname}/src|g" /usr/local/sbin/paperless
+sed -i '' "s|/usr/home/paperless/paperless-ngx/src|/usr/home/${username}/${appname}/src|g" /usr/local/sbin/paperless
 
 sed -i '' "s|paperless|${username}|g" /usr/local/etc/rc.d/paperless
 
