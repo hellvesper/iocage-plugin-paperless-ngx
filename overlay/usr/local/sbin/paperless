@@ -1,6 +1,6 @@
 #!/bin/sh
 cd /usr/home/paperless/paperless-ngx/src
-/usr/local/bin/python3.11 manage.py runserver 0.0.0.0:8000 &
+/usr/local/bin/python3.11 manage.py runserver &
 /usr/local/bin/python3.11 manage.py document_consume &
 /usr/local/bin/python3.11 -m celery --app paperless worker --loglevel INFO &
 /usr/local/bin/python3.11 -m celery --app paperless beat --loglevel INFO
