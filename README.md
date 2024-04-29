@@ -40,7 +40,7 @@ Plugin configured to use `DHCP`, so it will acquire new `IP` address from you ro
 
 Paperless-ngx is a community-supported open-source document management system that transforms your physical documents into a searchable online archive so you can keep, well, less paper.
 
-##### Features
+#### Features
 
 - **Organize and index** your scanned documents with tags, correspondents, types, and more.
 - _Your_ data is stored locally on _your_ server and is never transmitted or shared in any way.
@@ -63,7 +63,7 @@ Paperless-ngx is a community-supported open-source document management system th
     - Results are sorted by relevance to your search query.
     - Highlighting shows you which parts of the document matched the query.
     - Searching for similar documents ("More like this")
-- **Email processing**[1](https://docs.paperless-ngx.com/#fn:1): import documents from your email accounts:
+- **Email processing**: import documents from your email accounts:
     - Configure multiple accounts and rules for each account.
     - After processing, paperless can perform actions on the messages such as marking as read, deleting and more.
 - A built-in robust **multi-user permissions** system that supports 'global' permissions as well as per document or object.
