@@ -8,6 +8,8 @@ while service paperless status | grep -q 'is running'; do
 done
 echo "Paperless service stopped."
 
+sysrc -f /etc/rc.conf paperless_enable=NO
+
 service redis stop
 
 # Check if the redis service has stopped and wait until it has stopped
