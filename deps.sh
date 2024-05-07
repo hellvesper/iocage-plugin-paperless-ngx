@@ -3,13 +3,13 @@
 sudo pkg install -y gcc # for skilearn fortran
 sudo pkg install -y python3 python39 cmake expect gcc ghostscript10 git gnupg icc-profiles-adobe-cs4 icc-profiles-basiccolor icc-profiles-openicc ImageMagick7-nox11 leptonica liberation-fonts-ttf libxslt libxml2 lzlib mime-support pngquant poppler-utils qpdf redis rust sqlite tesseract tesseract-data unpaper zbar zlib-ng zxing-cpp openblas
 ### Python311
-sudo pkg install python311 py311-sqlite3
+sudo pkg install -y python311 py311-sqlite3
 python3.11 -m ensurepip --upgrade
 #sudo pkg install py39-zbar-py
 # PyYAML workaround
+export PATH=/home/vesper/.local/bin:$PATH
 pip3.11 install wheel
 
-export PATH=/home/vesper/.local/bin:$PATH
 
 while read requirement; do
     if ! echo "$requirement" | grep -qE "mysqlclient|psycopg2"; then
