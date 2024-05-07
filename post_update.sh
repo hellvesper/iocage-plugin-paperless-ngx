@@ -40,6 +40,10 @@ chown ${username}:${username} install_wheels.sh
 sudo -Hu ${username} /bin/sh install_wheels.sh
 # pip3.11 install --no-build-isolation pyyaml==6.0.1
 
+
+cd ${home}/{$appname}/src
+sudo -Hu ${username} python3.11 manage.py migrate
+
 # Enable Redis and paperless services
 sysrc -f /etc/rc.conf redis_enable="YES"
 service redis start
