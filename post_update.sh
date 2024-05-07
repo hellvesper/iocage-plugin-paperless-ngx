@@ -20,7 +20,7 @@ sudo -Hu ${username} tar -xf paperless-ngx-v2.8.1.tar.xz
 
 
 ### fetch prebuild wheels
-sudo -Hu ${username} fetch http://gitea-sqlite.local/vesper/iocage-plugin-paperless-ngx/releases/download/pre-release-v2.8.1/wheels.tar.xz
+sudo -Hu ${username} fetch http://gitea-sqlite.lan/vesper/iocage-plugin-paperless-ngx/releases/download/pre-release-v2.8.1/wheels.tar.xz
 sudo -Hu ${username} tar -xf wheels.tar.xz
 
 ### rename wheels, because it python store os version from 'uname -r' which is TrueNAS base os version
