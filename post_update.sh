@@ -1,21 +1,21 @@
-#!/bin/tcsh
+#!/bin/sh
 
 echo "Start post update script"
 echo $SHELL
 
-set username="paperless"
-set fullname="paperless-ngx"
-set appname="paperless-ngx"
-set uid=1000
-set gid=1000
-set home="/home/paperless"
+username="paperless"
+fullname="paperless-ngx"
+appname="paperless-ngx"
+uid=1000
+gid=1000
+home="/home/paperless"
 
 ### fetch paperless-ngx
 cd ${home}
 
-if (-d "paperless-ngx") then
+if [ -d "paperless-ngx" ]; then
     rm -rf paperless-ngx
-endif
+fi
 
 echo "username: $username"
 echo "fullname: $fullname"
@@ -39,13 +39,13 @@ chown ${username}:${username} rename.sh
 sudo -Hu ${username} /bin/sh rename.sh
 
 ### install wheels
-setenv PATH ${PATH}:/home/${username}/.local/bin
+export PATH=${PATH}:/home/${username}/.local/bin
 sudo -Hu ${username} python3.11 -m ensurepip --upgrade
 sudo -Hu ${username} cp ${appname}/requirements.txt ./
 sudo -Hu ${username} sed -i '' 1d requirements.txt
 
 cp /root/install_wheels.sh ./
-setenv PATH ${PATH}:/home/${username}/.local/bin
+export PATH=${PATH}:/home/${username}/.local/bin
 chown ${username}:${username} install_wheels.sh
 sudo -Hu ${username} /bin/sh install_wheels.sh
 # pip3.11 install --no-build-isolation pyyaml==6.0.1
@@ -64,7 +64,7 @@ sudo -Hu ${username} python3.11 manage.py migrate
 sysrc -f /etc/rc.conf redis_enable="YES"
 service redis start
 sleep 5  # Wait for a few seconds to ensure Redis has started
-if (`service redis status | grep 'is running'` != "") then
+if [ "$(service redis status | grep 'is running')" != "" ]; then
     sysrc -f /etc/rc.conf paperlessconsumer_enable="YES"
     sysrc -f /etc/rc.conf paperlessscheduler_enable="YES"
     sysrc -f /etc/rc.conf paperlesswebserver_enable="YES"
@@ -75,4 +75,4 @@ if (`service redis status | grep 'is running'` != "") then
     service paperlesstaskqueue start
 else
     echo "Redis service failed to start."
-endif
+fi
