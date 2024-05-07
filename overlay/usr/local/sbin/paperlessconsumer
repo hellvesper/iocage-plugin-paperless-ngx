@@ -2,4 +2,4 @@
 
 # . /usr/home/paperless/venv/bin/activate
 cd /usr/home/paperless/paperless-ngx/src
-exec python3 manage.py document_consumer
+exec python3.11 manage.py document_consumer

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# PROVIDE: paperlessscheduler
+# PROVIDE: paperlesswebserver
 # REQUIRE: DAEMON redis
 # KEYWORD: shutdown
 
