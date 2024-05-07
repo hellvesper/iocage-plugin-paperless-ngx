@@ -12,7 +12,7 @@ pip3.11 install wheel
 
 # mkdir wheels
 
-sed '/^-i/d' requirements.txt > requirements.tmp && mv requirements.tmp requirements.txt
+sed -i '' '/^-i/d' requirements.txt
 
 
 while read requirement; do
