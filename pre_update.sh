@@ -1,5 +1,7 @@
 #!/bin/tcsh
 
+echo $shell
+
 service paperless stop
 # Check if the paperless service has stopped and wait until it has stopped
 while (`service paperless status | grep -q 'is running'`)
@@ -53,3 +55,6 @@ echo "Removing the original paperless-ngx folder..."
 rm -rf /home/paperless/paperless-ngx
 echo "Original paperless-ngx folder removed."
 echo ""
+
+pkg update
+pkg upgrade -y
