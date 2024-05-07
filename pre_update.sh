@@ -7,6 +7,7 @@ while (`service paperless status | grep -q 'is running'`)
     sleep 1
 end
 echo "Paperless service stopped."
+echo ""
 
 sysrc -f /etc/rc.conf paperless_enable=NO
 
@@ -18,6 +19,7 @@ while (`service redis status | grep -q 'is running'`)
     sleep 1
 end
 echo "Redis service stopped."
+echo ""
 
 # Check if any Python application is running and kill all instances
 echo "Checking for running Python applications..."
@@ -25,6 +27,7 @@ foreach pid (`pgrep -f python`)
     kill -9 $pid
 end
 echo "All running Python applications have been terminated."
+echo ""
 
 # Remove paperless-ngx tarball with any version number if it exists
 echo "Checking for existing paperless-ngx tarballs to remove..."
@@ -33,16 +36,20 @@ foreach file (`find /home/paperless -type f -name 'paperless-ngx-*.tar.xz'`)
     rm $file
 end
 echo "Removal of paperless-ngx tarballs complete."
+echo ""
 
 echo "Creating backup of the paperless-ngx folder..."
 tar -czf /home/paperless/paperless-ngx.tar.gz /home/paperless/paperless-ngx
 mv /home/paperless/paperless-ngx.tar.gz /home/paperless/paperless-ngx.tar.gz.bak
 echo "Backup created and renamed to paperless-ngx.tar.gz.bak."
+echo ""
 
 echo "Backing up paperless.conf to user home directory..."
 cp /home/paperless/paperless-ngx/paperless.conf /home/paperless/paperless.conf
 echo "Backup of paperless.conf completed."
+echo ""
 
 echo "Removing the original paperless-ngx folder..."
 rm -rf /home/paperless/paperless-ngx
 echo "Original paperless-ngx folder removed."
+echo ""
