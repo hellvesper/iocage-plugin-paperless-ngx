@@ -12,6 +12,9 @@ pip3.11 install wheel
 
 # mkdir wheels
 
+sed -i '/^-i /d' requirements.txt
+
+
 while read requirement; do
     if ! echo "$requirement" | grep -qE "mysqlclient|psycopg2"; then
         if ! pip3.11 wheel "$requirement" --wheel-dir=./wheels; then
