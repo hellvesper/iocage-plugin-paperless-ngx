@@ -34,6 +34,11 @@ tar -czf /home/paperless/paperless-ngx.tar.gz /home/paperless/paperless-ngx
 mv /home/paperless/paperless-ngx.tar.gz /home/paperless/paperless-ngx.tar.gz.bak
 echo "Backup created and renamed to paperless-ngx.tar.gz.bak."
 
+echo "Backing up paperless.conf to user home directory..."
+cp /home/paperless/paperless-ngx/paperless.conf /home/paperless/paperless.conf
+echo "Backup of paperless.conf completed."
+
+
 echo "Removing the original paperless-ngx folder..."
 rm -rf /home/paperless/paperless-ngx
 echo "Original paperless-ngx folder removed."
