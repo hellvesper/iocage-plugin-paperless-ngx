@@ -7,10 +7,10 @@ sudo pkg install -y python311 py311-sqlite3
 python3.11 -m ensurepip --upgrade
 #sudo pkg install py39-zbar-py
 # PyYAML workaround
-export PATH=/home/vesper/.local/bin:$PATH
+export PATH=/home/$(whoami)/.local/bin:$PATH
 pip3.11 install wheel
 
-mkdir wheels
+# mkdir wheels
 
 while read requirement; do
     if ! echo "$requirement" | grep -qE "mysqlclient|psycopg2"; then
@@ -21,5 +21,5 @@ while read requirement; do
     fi
 done < requirements.txt
 
-cp *.whl wheels/
+# cp *.whl wheels/
 tar -cJvf wheels.tar.xz wheels
