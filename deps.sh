@@ -14,7 +14,7 @@ mkdir wheels
 
 while read requirement; do
     if ! echo "$requirement" | grep -qE "mysqlclient|psycopg2"; then
-        if ! pip3.11 wheel "$requirement" --wheel-dir=./weels; then
+        if ! pip3.11 wheel "$requirement" --wheel-dir=./wheels; then
             echo "Error occurred while processing $requirement"
             exit 1
         fi
