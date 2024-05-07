@@ -10,16 +10,16 @@ python3.11 -m ensurepip --upgrade
 export PATH=/home/vesper/.local/bin:$PATH
 pip3.11 install wheel
 
+mkdir wheels
 
 while read requirement; do
     if ! echo "$requirement" | grep -qE "mysqlclient|psycopg2"; then
-        if ! pip3.11 wheel "$requirement" --wheel-dir=./; then
+        if ! pip3.11 wheel "$requirement" --wheel-dir=./weels; then
             echo "Error occurred while processing $requirement"
             exit 1
         fi
     fi
 done < requirements.txt
 
-mkdir wheels
 cp *.whl wheels/
 tar -cJvf wheels.tar.xz wheels
