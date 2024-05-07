@@ -1,13 +1,14 @@
-#!/bin/tcsh
+#!/bin/sh
 
-echo $shell
+echo $SHELL
 
 service paperless stop
 # Check if the paperless service has stopped and wait until it has stopped
-while (`service paperless status | grep -q 'is running'`)
+while service paperless status | grep -q 'is running'
+do
     echo "Waiting for paperless service to stop..."
     sleep 1
-end
+done
 echo "Paperless service stopped."
 echo ""
 
@@ -16,27 +17,30 @@ sysrc -f /etc/rc.conf paperless_enable=NO
 service redis stop
 
 # Check if the redis service has stopped and wait until it has stopped
-while (`service redis status | grep -q 'is running'`)
+while service redis status | grep -q 'is running'
+do
     echo "Waiting for redis service to stop..."
     sleep 1
-end
+done
 echo "Redis service stopped."
 echo ""
 
 # Check if any Python application is running and kill all instances
 echo "Checking for running Python applications..."
-foreach pid (`pgrep -f python`)
+for pid in $(pgrep -f python)
+do
     kill -9 $pid
-end
+done
 echo "All running Python applications have been terminated."
 echo ""
 
 # Remove paperless-ngx tarball with any version number if it exists
 echo "Checking for existing paperless-ngx tarballs to remove..."
-foreach file (`find /home/paperless -type f -name 'paperless-ngx-*.tar.xz'`)
+for file in $(find /home/paperless -type f -name 'paperless-ngx-*.tar.xz')
+do
     echo "Removing $file"
     rm $file
-end
+done
 echo "Removal of paperless-ngx tarballs complete."
 echo ""
 

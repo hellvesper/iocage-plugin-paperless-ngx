@@ -1,5 +1,7 @@
 #!/bin/tcsh
 
+echo "Start post update script"
+echo $SHELL
 
 set username="paperless"
 set fullname="paperless-ngx"
