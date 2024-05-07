@@ -48,8 +48,14 @@ chown ${username}:${username} install_wheels.sh
 sudo -Hu ${username} /bin/sh install_wheels.sh
 # pip3.11 install --no-build-isolation pyyaml==6.0.1
 
+## apply config patch
+cd ${home}/${appname}/
+## generate patch, diff new config <-- our config 
+diff -u ${home}/${appname}/paperless.conf ${home}/paperless.conf > paperless.conf.patch
+## apply patch
+patch paperless.conf < paperless.conf.patch
 
-cd ${home}/{$appname}/src
+cd ${home}/${appname}/src
 sudo -Hu ${username} python3.11 manage.py migrate
 
 # Enable Redis and paperless services
