@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/usr/local/bin/zsh
 
 echo $SHELL
 
 service paperless stop
 # Check if the paperless service has stopped and wait until it has stopped
-while service paperless status | grep -q 'is running'
+while [[ "$(service paperless status | grep 'is running')" != "" ]]
 do
     echo "Waiting for paperless service to stop..."
     sleep 1
@@ -17,7 +17,7 @@ sysrc -f /etc/rc.conf paperless_enable=NO
 service redis stop
 
 # Check if the redis service has stopped and wait until it has stopped
-while service redis status | grep -q 'is running'
+while [[ "$(service redis status | grep 'is running')" != "" ]]
 do
     echo "Waiting for redis service to stop..."
     sleep 1
@@ -59,6 +59,3 @@ echo "Removing the original paperless-ngx folder..."
 rm -rf /home/paperless/paperless-ngx
 echo "Original paperless-ngx folder removed."
 echo ""
-
-pkg update
-pkg upgrade -y

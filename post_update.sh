@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/local/bin/zsh
 
 echo "Start post update script"
 echo $SHELL
@@ -13,7 +13,7 @@ home="/home/paperless"
 ### fetch paperless-ngx
 cd ${home}
 
-if [ -d "paperless-ngx" ]; then
+if [[ -d "paperless-ngx" ]]; then
     rm -rf paperless-ngx
 fi
 
@@ -64,7 +64,7 @@ sudo -Hu ${username} python3.11 manage.py migrate
 sysrc -f /etc/rc.conf redis_enable="YES"
 service redis start
 sleep 5  # Wait for a few seconds to ensure Redis has started
-if [ "$(service redis status | grep 'is running')" != "" ]; then
+if [[ "$(service redis status | grep 'is running')" != "" ]]; then
     sysrc -f /etc/rc.conf paperlessconsumer_enable="YES"
     sysrc -f /etc/rc.conf paperlessscheduler_enable="YES"
     sysrc -f /etc/rc.conf paperlesswebserver_enable="YES"
