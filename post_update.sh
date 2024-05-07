@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/tcsh
 
 
 set username="paperless"
@@ -14,6 +14,14 @@ cd ${home}
 if [ -d "paperless-ngx" ]; then
     rm -rf paperless-ngx
 fi
+
+echo "username: $username"
+echo "fullname: $fullname"
+echo "appname: $appname"
+echo "uid: $uid"
+echo "gid: $gid"
+echo "home: $home"
+
 
 sudo -Hu ${username} fetch https://github.com/paperless-ngx/paperless-ngx/releases/download/v2.8.1/paperless-ngx-v2.8.1.tar.xz && \
 sudo -Hu ${username} tar -xf paperless-ngx-v2.8.1.tar.xz

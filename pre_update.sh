@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/tcsh
 
 service paperless stop
 # Check if the paperless service has stopped and wait until it has stopped
