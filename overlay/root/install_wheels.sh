@@ -7,3 +7,4 @@ while read requirement; do
     exit 1
     fi
 done < requirements.txt
+pip3.11 install --user --no-warn-script-location --force-reinstall pillow
