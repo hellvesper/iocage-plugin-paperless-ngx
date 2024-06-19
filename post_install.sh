@@ -1,5 +1,6 @@
 #!/bin/tcsh
 
+echo $SHELL
 # Define the username and other details
 set username="paperless"
 set fullname="paperless-ngx"
