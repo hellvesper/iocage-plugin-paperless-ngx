@@ -50,12 +50,12 @@ chown -R ${username}:${username} /mnt/consume
 ### fetch paperless-ngx
 cd ${home}
 
-sudo -Hu ${username} fetch https://github.com/paperless-ngx/paperless-ngx/releases/download/v2.7.2/paperless-ngx-v2.7.2.tar.xz && \
-sudo -Hu ${username} tar -xf paperless-ngx-v2.7.2.tar.xz
+sudo -Hu ${username} fetch https://github.com/paperless-ngx/paperless-ngx/releases/download/v2.8.1/paperless-ngx-v2.8.1.tar.xz && \
+sudo -Hu ${username} tar -xf paperless-ngx-v2.8.1.tar.xz
 
 
 ### fetch prebuild wheels
-sudo -Hu ${username} fetch https://github.com/hellvesper/iocage-plugin-paperless-ngx/releases/download/v2.7.2%4013.2-RELEASE/wheels.tar.xz
+sudo -Hu ${username} fetch https://github.com/hellvesper/iocage-plugin-paperless-ngx.git/releases/download/pre-release-v2.8.1/wheels.tar.xz
 sudo -Hu ${username} tar -xf wheels.tar.xz
 
 ### rename wheels, because it python store os version from 'uname -r' which is TrueNAS base os version

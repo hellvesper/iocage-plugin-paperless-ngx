@@ -2,7 +2,7 @@
   "name": "paperless-ngx",
   "release": "13.2-RELEASE",
   "branch": "13.2-RELEASE",
-  "artifact": "http://gitea-sqlite.lan/vesper/iocage-plugin-paperless-ngx.git",
+  "artifact": "https://github.com/hellvesper/iocage-plugin-paperless-ngx.git",
   "official": false,
   "plugin_schema": "2",
   "properties": {

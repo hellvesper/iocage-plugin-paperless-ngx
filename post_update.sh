@@ -1,4 +1,4 @@
-#!/usr/local/bin/zsh
+#!/bin/sh
 
 echo "Start post update script"
 echo $SHELL
@@ -13,7 +13,7 @@ home="/home/paperless"
 ### fetch paperless-ngx
 cd ${home}
 
-if [[ -d "paperless-ngx" ]]; then
+if [ -d "paperless-ngx" ]; then
     rm -rf paperless-ngx
 fi
 
@@ -30,7 +30,7 @@ sudo -Hu ${username} tar -xf paperless-ngx-v2.8.1.tar.xz
 
 
 ### fetch prebuild wheels
-sudo -Hu ${username} fetch http://gitea-sqlite.lan/vesper/iocage-plugin-paperless-ngx/releases/download/pre-release-v2.8.1/wheels.tar.xz
+sudo -Hu ${username} fetch https://github.com/hellvesper/iocage-plugin-paperless-ngx.git/releases/download/pre-release-v2.8.1/wheels.tar.xz
 sudo -Hu ${username} tar -xf wheels.tar.xz
 
 ### rename wheels, because it python store os version from 'uname -r' which is TrueNAS base os version
@@ -64,7 +64,7 @@ sudo -Hu ${username} python3.11 manage.py migrate
 sysrc -f /etc/rc.conf redis_enable="YES"
 service redis start
 sleep 5  # Wait for a few seconds to ensure Redis has started
-if [[ "$(service redis status | grep 'is running')" != "" ]]; then
+if [ "$(service redis status | grep 'is running')" != "" ]; then
     sysrc -f /etc/rc.conf paperlessconsumer_enable="YES"
     sysrc -f /etc/rc.conf paperlessscheduler_enable="YES"
     sysrc -f /etc/rc.conf paperlesswebserver_enable="YES"
