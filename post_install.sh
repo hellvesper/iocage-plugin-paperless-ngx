@@ -1,6 +1,5 @@
 #!/bin/tcsh
 
-echo $SHELL
 # Define the username and other details
 set username="paperless"
 set fullname="paperless-ngx"
@@ -17,7 +16,8 @@ set home="/home/paperless"
 # pw groupmod ${username} -g ${gid}
 
 ## Create the group and user
-pw groupadd -g ${gid} ${username} && pw useradd -n ${username} -u ${uid} -m -g ${username} -s /bin/sh -d ${home}
+pw groupadd -g ${gid} -n ${username} && pw useradd -n ${username} -u ${uid} -m -g ${username} -s /bin/sh -d ${home}
+
 
 
 
