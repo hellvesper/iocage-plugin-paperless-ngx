@@ -2,7 +2,7 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
-pip3.11 install --user python-dotenv==1.0.1 whitenoise==6.6.0
+pip3.11 install --user python-dotenv==1.0.1 whitenoise==6.6.0 python-ipware==3.0.0
 while read requirement; do
     if [ "$requirement" = "mysqlclient" ]; then
         echo "Skipping installation of mysqlclient"

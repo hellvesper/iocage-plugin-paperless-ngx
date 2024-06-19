@@ -71,6 +71,7 @@ sudo -Hu ${username} cp ${appname}/requirements.txt ./
 sudo -Hu ${username} sed -i '' 1d requirements.txt
 # Remove 'mysqlclient' from requirements.txt as we use sqlite
 sudo -Hu ${username} sed -i '' '/^mysqlclient/d' requirements.txt
+sudo -Hu ${username} sed -i '' '/^psycopg2/d' requirements.txt
 
 
 cp /root/install_wheels.sh ./
